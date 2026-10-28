@@ -1,0 +1,24 @@
+{
+  "name": "resumeforge",
+  "version": "1.0.0",
+  "description": "Resume and portfolio builder with an Express and SQLite backend.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.11.4"
+  }
+}

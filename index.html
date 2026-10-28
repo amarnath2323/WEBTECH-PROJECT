@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResumeForge | Resume & Portfolio Builder</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="ResumeForge home"><span class="brand-mark">R</span><span>resume<span class="brand-light">forge</span></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-view="builder"><span>✎</span> Resume builder</button>
+        <button class="nav-item" data-view="resumes"><span>▤</span> My resumes</button>
+        <button class="nav-item" data-view="portfolio"><span>◈</span> Portfolio preview</button>
+        <button class="nav-item" data-view="ats"><span>✦</span> ATS & AI Optimizer</button>
+        <button class="nav-item" data-view="messages"><span>✉</span> Inquiries <span class="nav-badge" id="unreadBadge" style="display:none;">0</span></button>
+        <button class="nav-item" data-view="templates"><span>▧</span> Templates</button>
+        <button class="nav-item" data-view="settings"><span>⚙</span> Settings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip-card"><div class="tip-icon">✦</div><strong>Make your next move.</strong><p>A clear resume helps your skills stand out.</p><button id="tipCreate">Improve my resume ↗</button></div>
+        <div class="user-mini" id="userMiniBtn" style="cursor:pointer;" title="Click to manage account"><div class="avatar" id="miniAvatar">A</div><div><strong id="miniName">Amarnath</strong><small id="userCloudStatus">Connected to Cloud DB</small></div><span class="online-dot" id="userDot"></span></div>
+      </div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <div class="crumb">Workspace <span>/</span> <strong id="pageName">Dashboard</strong></div>
+        <div class="top-actions"><span class="save-state" id="saveState">☁ Cloud Database Synced</span><button class="icon-button" id="themeToggle" title="Toggle dark mode">◐</button><button class="secondary small" id="authBtn">Sign in</button><button class="primary small" id="topCreate">＋ Create resume</button></div>
+      </header>
+      <section class="view active" id="view-dashboard">
+        <div class="welcome-row"><div><div class="eyebrow">YOUR CAREER, ORGANIZED</div><h1>Good morning, <span id="welcomeName">Amarnath</span> <span class="wave">✦</span></h1><p class="muted">Build a profile that opens doors. One step at a time.</p></div><button class="primary" data-go="builder">＋ Start building</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Resume strength</span><span class="stat-icon purple">✦</span></div><div class="stat-number"><span id="strengthStat">20</span><small>/100</small></div><div class="mini-track"><span id="strengthBar"></span></div><p class="stat-foot">Based on your profile details</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Profile completion</span><span class="stat-icon green">✓</span></div><div class="stat-number"><span id="completionStat">15</span><small>%</small></div><div class="mini-track green-track"><span id="completionBar"></span></div><p class="stat-foot">Keep filling in your details</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Saved resumes</span><span class="stat-icon orange">▤</span></div><div class="stat-number" id="resumeCount">1</div><p class="stat-foot">Stored in cloud database</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Portfolio views</span><span class="stat-icon blue">↗</span></div><div class="stat-number" id="portfolioViewsStat">0</div><p class="stat-foot">Real visitor analytics</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Inquiries</span><span class="stat-icon green">✉</span></div><div class="stat-number" id="messagesCountStat">0</div><p class="stat-foot">Contact messages in DB</p></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel main-panel"><div class="panel-heading"><div><h2>Continue where you left off</h2><p class="muted">Your latest resume workspace</p></div><button class="text-button" data-go="resumes">View all ↗</button></div><div class="resume-preview-card"><div class="doc-icon">CV</div><div class="resume-card-copy"><strong id="dashResumeTitle">My professional resume</strong><p id="dashResumeMeta">Last edited just now · Draft</p><div class="tag-row"><span class="tag">ATS-friendly</span><span class="tag soft">Personal</span></div></div><button class="secondary" data-go="builder">Edit resume</button></div><div class="panel-heading section-gap"><div><h2>Recommended next steps</h2><p class="muted">Small improvements make a difference.</p></div></div><div id="recommendations" class="recommendations"></div></article>
+          <article class="panel side-panel"><div class="panel-heading"><div><h2>Profile checklist</h2><p class="muted">A strong starting point</p></div></div><div class="circle-wrap"><div class="progress-circle" id="progressCircle"><div><strong id="circleValue">15%</strong><small>complete</small></div></div></div><div id="checklist" class="checklist"></div><button class="primary full" data-go="builder">Complete my profile</button></article>
+        </div>
+      </section>
+      <section class="view" id="view-builder">
+        <div class="view-heading"><div><div class="eyebrow">RESUME WORKSHOP</div><h1>Build your resume</h1><p class="muted">Your edits update the preview instantly and save locally or to your account when signed in.</p></div><div class="heading-actions"><button class="secondary" id="saveResume">Save draft</button><button class="primary" id="downloadPdf">↓ Download PDF</button></div></div>
+        <div class="builder-layout">
+          <div class="editor-column">
+            <div class="step-tabs" id="stepTabs">
+              <button class="step-tab active" data-step="personal"><span>01</span> Personal</button>
+              <button class="step-tab" data-step="education"><span>02</span> Education</button>
+              <button class="step-tab" data-step="skills"><span>03</span> Skills</button>
+              <button class="step-tab" data-step="projects"><span>04</span> Projects</button>
+              <button class="step-tab" data-step="experience"><span>05</span> Experience</button>
+              <button class="step-tab" data-step="extras"><span>06</span> Extras</button>
+            </div>
+            <form id="resumeForm">
+              <div class="form-step active" data-form-step="personal"><div class="form-title"><div><h2>Personal information</h2><p class="muted">Start with the details people need to know.</p></div><span class="step-count">01 / 06</span></div>
+                <div class="field-grid"><label class="field full-field">Full name<input name="name" placeholder="e.g. Amarnath" required></label><label class="field">Professional title<input name="title" placeholder="e.g. Computer Science Student"></label><label class="field">Email<input name="email" type="email" placeholder="you@example.com"></label><label class="field">Phone<input name="phone" placeholder="+91 98765 43210"></label><label class="field">Location<input name="location" placeholder="Coimbatore, India"></label><label class="field">LinkedIn URL<input name="linkedin" type="url" placeholder="https://linkedin.com/in/..."></label><label class="field">GitHub URL<input name="github" type="url" placeholder="https://github.com/..."></label><label class="field full-field">About me<textarea name="about" rows="4" placeholder="Write a short, genuine professional introduction..."></textarea><small class="field-help">Tip: Mention your interests, strengths, and the kind of work you want to do.</small></label></div>
+              </div>
+              <div class="form-step" data-form-step="education"><div class="form-title"><div><h2>Education</h2><p class="muted">Add your academic background.</p></div><span class="step-count">02 / 06</span></div><div id="educationFields"></div><button class="add-button" type="button" data-add="education">＋ Add education</button></div>
+              <div class="form-step" data-form-step="skills"><div class="form-title"><div><h2>Skills & strengths</h2><p class="muted">List skills you can confidently discuss.</p></div><span class="step-count">03 / 06</span></div><label class="field full-field">Technical skills <small class="field-help">Separate each skill with a comma.</small><textarea name="skills" rows="3" placeholder="Java, HTML, CSS, JavaScript, MySQL"></textarea></label><label class="field full-field">Soft skills <textarea name="softSkills" rows="2" placeholder="Leadership, Communication, Problem solving"></textarea></label></div>
+              <div class="form-step" data-form-step="projects"><div class="form-title"><div><h2>Projects</h2><p class="muted">Show what you have made and what you learned.</p></div><span class="step-count">04 / 06</span></div><div id="projectFields"></div><button class="add-button" type="button" data-add="projects">＋ Add project</button></div>
+              <div class="form-step" data-form-step="experience"><div class="form-title"><div><h2>Experience & internships</h2><p class="muted">Include internships, placements, and relevant work.</p></div><span class="step-count">05 / 06</span></div><div id="experienceFields"></div><button class="add-button" type="button" data-add="experience">＋ Add experience</button></div>
+              <div class="form-step" data-form-step="extras"><div class="form-title"><div><h2>Certifications & achievements</h2><p class="muted">Add credentials and highlights that are true to you.</p></div><span class="step-count">06 / 06</span></div><div id="certFields"></div><button class="add-button" type="button" data-add="certifications">＋ Add certification</button><label class="field full-field extra-field">Achievements<textarea name="achievements" rows="3" placeholder="Hackathons, awards, academic achievements..."></textarea></label><div class="customize-box"><h3>Quick customization</h3><div class="field-grid"><label class="field">Template<select name="template"><option value="minimal">Minimal Professional</option><option value="modern">Modern Developer</option><option value="corporate">Corporate</option><option value="creative">Creative</option><option value="ats">ATS-friendly</option></select></label><label class="field">Accent color<input name="accent" type="color" value="#6658e8"></label></div></div></div>
+              <div class="form-footer"><button type="button" class="secondary" id="prevStep">← Previous</button><span id="stepStatus">Step 1 of 6</span><button type="button" class="primary" id="nextStep">Continue →</button></div>
+            </form>
+          </div>
+          <aside class="preview-column"><div class="preview-toolbar"><div><strong>Live preview</strong><small>Updates as you type</small></div><button class="text-button" id="printResume">Print ↗</button></div><div id="resumePaper" class="resume-paper template-minimal"></div><div class="preview-bottom"><span>▣ A4 document</span><span>ATS-conscious layout</span></div></aside>
+        </div>
+      </section>
+      <section class="view" id="view-resumes"><div class="view-heading"><div><div class="eyebrow">YOUR DOCUMENTS</div><h1>My resumes</h1><p class="muted">Keep tailored versions for different opportunities.</p></div><button class="primary" data-go="builder">＋ New resume</button></div><div id="savedResumeList" class="saved-resume-grid"></div></section>
+      <section class="view" id="view-portfolio">
+        <div class="view-heading"><div><div class="eyebrow">YOUR PERSONAL BRAND</div><h1>Portfolio preview</h1><p class="muted">A live interactive portfolio generated from your resume information.</p></div><div class="heading-actions"><button class="secondary" id="copyPortfolio">Copy portfolio text</button><button class="primary" id="printPortfolio">Print portfolio</button></div></div>
+        <div class="cloud-host-banner">
+          <div class="host-info">
+            <div class="host-icon">🚀</div>
+            <div class="host-text">
+              <strong>Your Public Portfolio is Hosted Live!</strong>
+              <p>Anyone with this URL can view your portfolio and send you contact messages stored in the database.</p>
+            </div>
+          </div>
+          <div class="host-actions">
+            <div class="host-url-box" id="hostUrlDisplay">http://localhost:5000/p/amarnath</div>
+            <button class="secondary small" id="copyLiveLinkBtn">Copy Link</button>
+            <a class="primary small" id="openLiveLinkBtn" href="/p/amarnath" target="_blank" rel="noopener">Open Live Page ↗</a>
+          </div>
+        </div>
+        <div id="portfolioPage" class="portfolio-page"></div>
+      </section>
+
+      <section class="view" id="view-ats">
+        <div class="view-heading">
+          <div>
+            <div class="eyebrow">INTELLIGENT RECRUITER READINESS</div>
+            <h1>ATS & AI Optimizer</h1>
+            <p class="muted">Scan your resume against real applicant tracking systems and generate high-impact bullet points.</p>
+          </div>
+          <button class="primary" id="runAtsScanBtn">⚡ Run ATS Scan</button>
+        </div>
+
+        <div class="ats-role-selector">
+          <label for="atsTargetRole">Target Career Role:</label>
+          <select id="atsTargetRole">
+            <option value="software-engineer">Software Engineer (General)</option>
+            <option value="full-stack">Full-Stack Developer</option>
+            <option value="frontend">Frontend Developer</option>
+            <option value="backend">Backend Developer</option>
+            <option value="data-analyst">Data Analyst / Scientist</option>
+          </select>
+          <span class="muted" style="font-size:11px;">Scoring adapts keywords according to the selected role.</span>
+        </div>
+
+        <div class="ats-dashboard">
+          <div>
+            <div class="ats-score-hero">
+              <div class="score-circle-big" id="atsScoreCircle">
+                <strong id="atsScoreValue">--</strong>
+              </div>
+              <div class="score-details">
+                <span class="score-badge" id="atsScoreRating">Ready to Analyze</span>
+                <h3 id="atsRoleTitle">Applicant Tracking Match Score</h3>
+                <p id="atsSummaryText">Click "Run ATS Scan" to analyze your resume against industry keywords, action verbs, and quantifiable metrics.</p>
+              </div>
+            </div>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <div><h2>Resume Strengths</h2><p class="muted">Highlights identified by the scanning algorithm</p></div>
+              </div>
+              <div id="atsStrengthsList" class="recommendations">
+                <p class="muted">Run scan to view strengths.</p>
+              </div>
+            </article>
+
+            <article class="panel" style="margin-top:18px;">
+              <div class="panel-heading">
+                <div><h2>Missing Essential Keywords</h2><p class="muted">Click any keyword to instantly append it to your Technical Skills</p></div>
+              </div>
+              <div id="atsMissingKeywords" class="keyword-chips">
+                <p class="muted">Run scan to detect missing keywords.</p>
+              </div>
+            </article>
+          </div>
+
+          <div>
+            <article class="bullet-ai-card">
+              <div class="panel-heading">
+                <div>
+                  <h2>AI Bullet Point Enhancer</h2>
+                  <p class="muted">Convert simple notes into high-impact STAR resume bullets with action verbs and metrics.</p>
+                </div>
+              </div>
+              <label class="field full-field">
+                Draft sentence or rough note
+                <textarea id="bulletInputText" rows="3" placeholder="e.g. built a web application using python and database for job tracking"></textarea>
+              </label>
+              <button class="primary full" id="generateBulletBtn" style="margin-top:10px;">✦ Enhance with AI</button>
+
+              <div class="bullet-suggestions" id="bulletSuggestionsContainer"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-messages">
+        <div class="view-heading">
+          <div>
+            <div class="eyebrow">PORTFOLIO INBOX</div>
+            <h1>Contact Inquiries</h1>
+            <p class="muted">Messages sent by recruiters and clients from your live public portfolio.</p>
+          </div>
+          <button class="secondary small" id="refreshMessagesBtn">↻ Refresh Inbox</button>
+        </div>
+        <div id="messagesList" class="messages-container">
+          <p class="muted">Loading inquiries from database...</p>
+        </div>
+      </section>
+
+      <section class="view" id="view-templates"><div class="view-heading"><div><div class="eyebrow">FIND YOUR STYLE</div><h1>Resume templates</h1><p class="muted">Choose a look. Your information stays in place.</p></div></div><div class="template-grid">
+        <button class="template-card selected" data-template="minimal"><div class="template-thumb thumb-minimal"><b>AM</b><i></i><i></i><i></i><span></span></div><strong>Minimal Professional</strong><small>Clean and timeless</small></button>
+        <button class="template-card" data-template="modern"><div class="template-thumb thumb-modern"><b>AM</b><i></i><i></i><i></i><span></span></div><strong>Modern Developer</strong><small>Bold accent and hierarchy</small></button>
+        <button class="template-card" data-template="corporate"><div class="template-thumb thumb-corporate"><b>AM</b><i></i><i></i><i></i><span></span></div><strong>Corporate</strong><small>Traditional and structured</small></button>
+        <button class="template-card" data-template="creative"><div class="template-thumb thumb-creative"><b>AM</b><i></i><i></i><i></i><span></span></div><strong>Creative</strong><small>Expressive accent color</small></button>
+        <button class="template-card" data-template="ats"><div class="template-thumb thumb-ats"><b>AM</b><i></i><i></i><i></i><span></span></div><strong>ATS-friendly</strong><small>Simple, text-first layout</small></button>
+      </div></section>
+      <section class="view" id="view-settings"><div class="view-heading"><div><div class="eyebrow">PREFERENCES</div><h1>Settings</h1><p class="muted">Manage your workspace and data.</p></div></div><div class="settings-layout"><article class="panel settings-card"><h2>Appearance</h2><p class="muted">Personalize the workspace.</p><div class="setting-row"><div><strong>Dark mode</strong><small>Use a darker workspace theme.</small></div><button class="toggle" id="settingsTheme" aria-pressed="false"><span></span></button></div><div class="setting-row"><div><strong>Accent color</strong><small>Used for buttons and highlights.</small></div><input id="settingsAccent" type="color" value="#6658e8"></div></article><article class="panel settings-card"><h2>Data & Database</h2><p class="muted">Database synchronization and backups.</p><div class="setting-row"><div><strong>Database Engine</strong><small>SQLite</small></div><span class="cloud-badge">● Active & Connected</span></div><div class="setting-row"><div><strong>Export profile data</strong><small>Download a JSON backup.</small></div><button class="secondary" id="exportData">Export JSON</button></div><div class="setting-row"><div><strong>Import profile data</strong><small>Restore a JSON backup.</small></div><label class="secondary file-label">Choose file<input type="file" id="importData" accept=".json,application/json" hidden></label></div><div class="setting-row"><div><strong>Reset local profile</strong><small>Reset local changes to demo defaults.</small></div><button class="danger" id="resetData">Reset data</button></div></article><article class="panel settings-card"><h2>About ResumeForge Full-Stack</h2><p class="muted">A complete full-stack web application featuring Express.js REST APIs, SQLite database persistence, JWT authentication, ATS scanner, and live hosted portfolio.</p><div class="tag-row"><span class="tag">Node.js</span><span class="tag">Express 5</span><span class="tag">SQLite</span><span class="tag">JWT Auth</span><span class="tag">REST API</span><span class="tag">ATS AI</span></div></article></div></section>
+      <footer class="app-footer">ResumeForge Full-Stack <span>Connected to SQLite Backend.</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="modal-backdrop" id="modal"><div class="modal"><button class="modal-close" id="modalClose">×</button><div class="eyebrow">SAVE A VERSION</div><h2>Name this resume</h2><p class="muted">Save a version of your resume to the cloud database.</p><label class="field">Resume name<input id="snapshotName" value="Software Developer Resume" maxlength="70"></label><button class="primary full" id="confirmSnapshot">Save to Database</button></div></div>
+
+  <!-- Auth Modal -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal">
+      <button class="modal-close" id="authModalClose">×</button>
+      <div class="eyebrow">CLOUD ACCOUNT</div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignIn">Sign In</button>
+        <button class="auth-tab" id="tabRegister">Create Account</button>
+      </div>
+
+      <button type="button" class="auth-demo-btn" id="demoFillBtn">⚡ 1-Click Demo Login (Amarnath)</button>
+      <div class="auth-alert" id="authAlert"></div>
+
+      <form id="authForm">
+        <label class="field full-field" id="authNameField" style="display:none; margin-bottom:12px;">Full Name<input id="authName" placeholder="e.g. Amarnath"></label>
+        <label class="field full-field" style="margin-bottom:12px;">Email Address<input id="authEmail" type="email" placeholder="you@example.com" required></label>
+        <label class="field full-field" style="margin-bottom:18px;">Password<input id="authPassword" type="password" placeholder="At least 8 characters" required></label>
+        <button type="submit" class="primary full" id="authSubmitBtn">Sign In ↗</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

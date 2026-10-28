@@ -1,0 +1,5 @@
+node_modules/
+.env
+resumeforge.db
+resumeforge.db-shm
+resumeforge.db-wal
